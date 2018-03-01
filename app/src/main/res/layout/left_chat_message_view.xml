@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/imageViewAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            app:cardCornerRadius="25dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:id="@+id/left_user_icon"
+                android:layout_height="50dp"
+                android:src="@drawable/logo" />
+
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:id="@+id/message_scout"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignTop="@+id/chat_bubble_left"
+            android:layout_marginLeft="-4dp"
+            android:layout_toRightOf="@+id/chat_bubble_left"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_carrot_right" />
+
+        <FrameLayout
+            android:id="@+id/chat_bubble_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imageViewAvatar"
+            android:layout_toStartOf="@+id/imageViewAvatar"
+            android:background="@drawable/shape_round_rect_white"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/text_view_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="@color/indigo_900"
+                android:textSize="14sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_left"
+                android:layout_gravity="right"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_view_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/chat_bubble_left"
+            android:layout_below="@+id/chat_bubble_left"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="8dp"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="12:29:pm"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:orientation="vertical"
+        android:id="@+id/right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="16dp"
+        app:cardCornerRadius="25dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shape"
+        android:id="@+id/imageViewAvatar_right">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:id="@+id/rigth_user_icon"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            />
+
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/message_scout_right"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignTop="@+id/chat_bubble_right"
+        android:layout_marginRight="-4dp"
+        android:layout_toLeftOf="@+id/chat_bubble_right"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_carrot_left" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_bubble_right"
+        android:layout_toRightOf="@+id/imageViewAvatar_right"
+        android:background="@drawable/shape_round_rect_white"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_right"
+            android:textSize="14sp"
+            android:gravity="left"
+            android:textColor="@color/indigo_900"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_rigth"/>
+    </FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view_time_right"
+        android:layout_below="@+id/chat_bubble_right"
+        android:layout_alignLeft="@id/chat_bubble_right"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:text="12:29:pm"/>
+
+
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/patti"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</RelativeLayout>

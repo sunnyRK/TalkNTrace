@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codex.talkntrace.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/green_500"
+        android:id="@+id/toolbar">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="60dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="-30dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/centername">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/userpic"
+                    android:src="@drawable/logo"
+                    android:scaleType="fitCenter"/>
+            </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="TalkNTrace"
+                android:layout_toRightOf="@+id/centername"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:id="@+id/username"
+                android:textColor="@color/white"
+                android:maxWidth="200dp"
+                android:textStyle="bold"/>
+
+
+
+
+        </RelativeLayout>
+
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/menu_main"
+                android:src="@drawable/ic_search_white_24dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:background="@drawable/shape_transparent"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="70dp"
+        />
+
+    <com.roughike.bottombar.BottomBar
+        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:id="@+id/bottomBar"
+        android:layout_margin="0dp"
+        android:layout_alignParentBottom="true"
+        app:bb_tabXmlResource="@xml/bottombar_tabs"
+        app:bb_behavior="shifting" />
+
+</RelativeLayout>

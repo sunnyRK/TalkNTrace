@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codex.talkntrace.Maps">
+
+    <fragment
+        android:id="@+id/mapfragment"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight=".5"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            app:fab_colorNormal="@color/blue_500"
+            app:fab_colorPressed="@color/blue_300"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_showShadow="true"
+            app:fab_shadowColor="#66000000"
+            fab:menu_shadowRadius="4dp"
+            fab:menu_shadowXOffset="1dp"
+            fab:menu_shadowYOffset="3dp"
+            app:fab_size="normal" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/chat_fab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_toRightOf="@+id/fab_back"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_chat_white_24dp"
+            app:fab_colorNormal="@color/green_500"
+            app:fab_colorPressed="@color/green_300"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_showShadow="true"
+            app:fab_shadowColor="#66000000"
+            fab:menu_shadowRadius="4dp"
+            fab:menu_shadowXOffset="1dp"
+            fab:menu_shadowYOffset="3dp"
+            app:fab_size="normal" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_current"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_toRightOf="@+id/fab_back"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_streetview_white_24dp"
+            app:fab_colorNormal="@color/purple_500"
+            app:fab_colorPressed="@color/purple_600"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_showShadow="true"
+            app:fab_shadowColor="#66000000"
+            fab:menu_shadowRadius="4dp"
+            fab:menu_shadowXOffset="1dp"
+            fab:menu_shadowYOffset="3dp"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="88dp"
+            android:layout_marginLeft="-70dp"
+            android:layout_marginRight="10dp"
+            fab:menu_animationDelayPerItem="50"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_buttonSpacing="0dp"
+            fab:menu_colorNormal="#DA4336"
+            fab:menu_colorPressed="#E75043"
+            fab:menu_colorRipple="#99FFFFFF"
+            fab:menu_fab_hide_animation="@anim/scale_down"
+            fab:menu_fab_show_animation="@anim/scale_up"
+            fab:menu_fab_size="normal"
+            fab:menu_icon="@drawable/ic_map_white_24dp"
+            fab:menu_labels_colorNormal="#333333"
+            fab:menu_labels_colorPressed="#444444"
+            fab:menu_labels_colorRipple="#66FFFFFF"
+            fab:menu_labels_cornerRadius="3dp"
+            fab:menu_labels_ellipsize="none"
+            fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            fab:menu_labels_margin="0dp"
+            fab:menu_labels_maxLines="-1"
+            fab:menu_labels_padding="8dp"
+            fab:menu_labels_paddingBottom="4dp"
+            fab:menu_labels_paddingLeft="8dp"
+            fab:menu_labels_paddingRight="8dp"
+            fab:menu_labels_paddingTop="4dp"
+            fab:menu_labels_position="left"
+            fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            fab:menu_labels_showShadow="true"
+            fab:menu_labels_singleLine="false"
+            fab:menu_labels_textColor="#FFFFFF"
+            fab:menu_labels_textSize="14sp"
+            fab:menu_openDirection="up"
+            fab:menu_shadowColor="#66000000"
+            fab:menu_shadowRadius="4dp"
+            fab:menu_shadowXOffset="1dp"
+            fab:menu_shadowYOffset="3dp"
+            fab:menu_showShadow="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_streetview_white_24dp"
+                fab:fab_label="Normal View"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/Satellite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_satellite_white_24dp"
+                fab:fab_label="Satellite View"
+                fab:fab_size="mini"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/Terran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_terrain_white_24dp"
+                fab:fab_label="Terrain View"
+                fab:fab_size="mini"
+                />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginBottom="-200dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/view1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/mapfragment"
+            android:elevation="100dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" >
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:elevation="10dp"
+                    android:src="@drawable/scrolldown"/>
+
+                <ImageView
+                    android:id="@+id/contact_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/contact_icon"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/relativeLayout"
+                    android:layout_marginEnd="25dp" />
+
+                <RelativeLayout
+                    android:layout_width="250dp"
+                    android:layout_height="200dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="0dp"
+                    android:textAlignment="center"
+                    android:id="@+id/relativeLayout">
+
+                    <TextView
+                        android:id="@+id/contact_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="40dp"
+                        android:text="Name"
+                        android:textColor="@color/bb_darkBackgroundColor"
+                        android:textSize="23sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/contact_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/contact_name"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="99999 99999"
+                        android:textColor="@color/grey_800"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chat"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/green_500"
+                        android:background="@drawable/shape"
+                        android:layout_below="@+id/contact_no"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="12dp" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

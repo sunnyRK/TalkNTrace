@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codex.talkntrace.DeleteAccount">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_chat"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/green_500"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:layout_centerVertical="true"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:src="@drawable/deleteaccount" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="serif"
+                        android:text="Delete Account"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold|italic"  />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+     <!--       <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:fontFamily="serif"
+                android:text="Delete My Account"
+                android:textSize="26sp"
+                android:textStyle="bold|italic" /> -->
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_gif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar_chat"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="100dp">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/delete">
+
+                </pl.droidsonroids.gif.GifImageView>
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/text_intro1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardView_gif"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
+                android:text="If you do not think you will use TalkNTrace again and would like your account deleted, we can take care of this for you. Keep in mind your all data will be lost. You cannot retrieve any content or information you have added."
+                android:textSize="16sp"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/text_intro2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_intro1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
+                android:text="If you would still like your account deleted, Tap on ''Delete My Account'' button."
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_below="@+id/text_intro2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="45dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/round_button"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Delete My Account"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/delete_accc"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codex.talkntrace.ReplaceEmergencyContacts">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_emergency"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/green_500"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="55dp"
+                android:layout_marginLeft="30dp"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/tc" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/icon"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="Select Trusted Contacts"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lets"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="60dp">
+
+        <EditText
+            android:id="@+id/groupname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar_emergency"
+            android:layout_toStartOf="@+id/createGroup"
+            android:ems="10"
+            android:hint="Search"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="230dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <!--
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_below="@+id/toolbar_emergency"
+                android:layout_toStartOf="@+id/createGroup"
+                android:id="@+id/groupname"
+                android:layout_height="50dp" />
+
+    -->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_contctlist_Emergency"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_emergency"
+        android:layout_marginTop="50dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--
+        <Button
+            android:id="@+id/createGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@color/green_600"
+            android:text="Create"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="298dp" />
+    -->
+
+</RelativeLayout>

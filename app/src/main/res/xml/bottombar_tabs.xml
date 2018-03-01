@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <tab
+        id="@+id/tab_People"
+        icon="@drawable/ic_contacts_black_24dp"
+        title="People"
+        barColorWhenSelected="@color/purple_900" />
+
+    <tab
+        id="@+id/tab_groups"
+        icon="@drawable/ic_people_black_24dp"
+        title="Groups"
+        barColorWhenSelected="@color/purple_900" />
+
+    <tab
+        id="@+id/tab_chats"
+        icon="@drawable/ic_forum_black_24dp"
+        title="Chats"
+        barColorWhenSelected="@color/purple_900" />
+
+    <tab
+        id="@+id/tab_map"
+        icon="@drawable/ic_local_hospital_black_24dp"
+        title="Emergency"
+        barColorWhenSelected="@color/red_400" />
+
+    <tab
+        id="@+id/tab_settings"
+        icon="@drawable/ic_settings_black_24dp"
+        title="Settiings"
+        barColorWhenSelected="@color/purple_900" />
+
+</tabs>
