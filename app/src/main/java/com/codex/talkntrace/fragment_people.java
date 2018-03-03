@@ -69,7 +69,6 @@ public class fragment_people extends Fragment {
                 }
             }
         };
-
     }
 
 
