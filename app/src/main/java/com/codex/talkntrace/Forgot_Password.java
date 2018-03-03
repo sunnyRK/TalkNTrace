@@ -183,9 +183,9 @@ public class Forgot_Password extends AppCompatActivity {
 
                                 if (str == null || str.equals("0")) {
                                 } else {
-                                    startActivity(new Intent(Forgot_Password.this, enter_pin.class));
+                                    /*startActivity(new Intent(Forgot_Password.this, enter_pin.class));
                                     Forgot_Password.this.finish();
-
+*/
                                 }
                                 flag2++;
                             }
@@ -217,10 +217,7 @@ public class Forgot_Password extends AppCompatActivity {
                 pin = r.nextInt(1000000);
 
                 pins = String.valueOf(pin);
-                Log.d("pinsss",pins);
                 pins = encryption.encrypt(pins);
-                Log.d("pinsss",pins);
-                Log.d("pintouser", String.valueOf(pin));
                 DatabaseReference pinRef = FirebaseDatabase.getInstance().getReference().child("pin");
                 pinRef.child(User_No).child("pin").setValue(pin+"");
                 for(DataSnapshot snapshot : dataSnapshot.getChildren())

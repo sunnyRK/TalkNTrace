@@ -63,10 +63,8 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
     private String member_no;
     private String member_totalGroups_no;
     private int member_totalGroups_no1;
-    private int flag=0;
     private int flags=0;
     private int flags1=0;
-    int flagss=0;
     Spinner spinner;
     String [] group_type = {"Secure Group","Simple Group"};
     String type;
@@ -125,17 +123,14 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
 
                 type = group_type[position];
                 Toast.makeText(getBaseContext(),type, Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
-
             }
 
         });
-
 
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +142,7 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                     if(group_name.length()>3){
                         retrieve_groupLastno();
                         groupname.setText("");
-                        Toast.makeText(ReplaceEmergencyContacts.this,"You created "+ group_name + "Group Now You can Trace Your group member Location.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReplaceEmergencyContacts.this,"You created "+ group_name + " Group Now You can Trace Your group member Location.",Toast.LENGTH_LONG).show();
                     }
                     else
                     {
@@ -173,8 +168,6 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                     groups_total1 = Integer.parseInt(groups_total);
                     groups_total1++;
                     flags1=1;
-
-                    Log.d("Grpstotal", "total groups : " + groups_total1 + "");
                     createGroup();
                 }
             }
@@ -186,9 +179,7 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
         });
     }
 
-
     private void createGroup() {
-        Log.d("Grpstotal","2 fun");
         mDatabaseGroup.child(User_No).child("totalgroups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -198,26 +189,18 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                     total_group1 = Integer.parseInt(total_group);
                     total_group1++;
                     flags=1;
-                    Log.d("totalgroup","1 " + total_group1);
                     addToGroupChat();
-                    Log.d("totalgroup","2 " + total_group1);
-                    Log.d("Grpstotal", " total groups in admin " + total_group1);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
     }
-
-
     private void addToGroupChat()
     {
-        Log.d("Grpstotal","3 fun");
-        Log.d("Grpstotal","sunny " + groups_total1);
+        final String[] url = new String[1];
         int i=2;
         mDatabaseGroup.child(User_No).child("users_groups").child(total_group1+"").child("groupno").setValue(groups_total1+"");
         mDatabaseGroup.child(User_No).child("users_groups").child(total_group1+"").child("name").setValue(group_name+"");
@@ -226,19 +209,49 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
         final int number = r.nextInt(3)+1;
         String intial_charcter = (group_name.charAt(0)+"").toLowerCase()+number;
 
-
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("group_icon/"+intial_charcter+".png");
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                String url = uri.toString();
-                mDatabaseGroup.child(User_No).child("users_groups").child(total_group1+"").child("photourl").setValue(url);
+                url[0] = uri.toString();
+                mDatabaseGroup.child(User_No).child("users_groups").child(total_group1+"").child("photourl").setValue(url[0]);
+
+                for(Users user:selected_contacts)
+                {
+                    final int[] flags = {0};
+                    final String member_email = user.getEmail();
+                    Query query = mDatabaseGroup.orderByChild("email").equalTo(member_email);
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                            {
+                                if(flags[0] ==0) {
+                                    member_no = (String) snapshot.child("user_no").getValue();
+                                    member_totalGroups_no = (String) snapshot.child("totalgroups").getValue();
+                                    member_totalGroups_no1 = Integer.parseInt(member_totalGroups_no);
+                                    member_totalGroups_no1++;
+                                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("groupno").setValue(groups_total1+"");
+                                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("name").setValue(group_name);
+                                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("type").setValue(type);
+                                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("photourl").setValue(url[0]);
+                                    mDatabaseGroup.child(member_no).child("totalgroups").setValue(member_totalGroups_no1 + "");
+                                    flags[0] =1;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                }
+
             }
         });
 
-        Log.d("totalgroup","3 " + total_group1);
         mDatabaseGroup.child(User_No).child("totalgroups").setValue(total_group1+"");
-
         mDatabaseGroupChat.child(groups_total1+"").child("groupname").setValue(group_name+"");
         mDatabaseGroupChat.child(groups_total1+"").child("groupno").setValue(groups_total1+"");
         mDatabaseGroupChat.child(groups_total1+"").child("totalmsg").setValue("0");
@@ -252,65 +265,7 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
             mDatabaseGroupChat.child(groups_total1+"").child("totalmember").setValue(i+"");
             i++;
         }
-        for(Users user:selected_contacts)
-        {
-            final int[] flags = {0};
-            final String member_email = user.getEmail();
-            Query query = mDatabaseGroup.orderByChild("email").equalTo(member_email);
-            query.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren())
-                    {
-                        if(flags[0] ==0) {
-                            member_no = (String) snapshot.child("user_no").getValue();
-                            member_totalGroups_no = (String) snapshot.child("totalgroups").getValue();
-                            member_totalGroups_no1 = Integer.parseInt(member_totalGroups_no);
-                            member_totalGroups_no1++;
-                            Log.d("Grpstotal", "member no " + member_no);
-                            flags[0] =1;
-                        }
 
-                    }
-
-                    Log.d("Grpstotal","add member");
-                    Log.d("Grpstotal",member_totalGroups_no1+" member_totalgroup no of "+ member_email);
-                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("groupno").setValue(groups_total1+"");
-                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("name").setValue(group_name);
-                    mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("type").setValue(type);
-                    String intial_charcter = (group_name.charAt(0)+"").toLowerCase()+number;
-
-
-                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("group_icon/"+intial_charcter+".png");
-                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-
-                            String url = uri.toString();
-                            Log.d("group_url","url");
-                            mDatabaseGroup.child(member_no).child("users_groups").child(member_totalGroups_no1 + "").child("photourl").setValue(url);
-                        }
-                    });
-
-                    Log.d("totalgroup","5 " + total_group1);
-
-                    if(flagss == 0) {
-                        mDatabaseGroup.child(member_no).child("totalgroups").setValue(member_totalGroups_no1 + "");
-                        flagss=1;
-                        ReplaceEmergencyContacts.this.finish();
-                    }
-
-
-                   // startActivity(new Intent(ReplaceEmergencyContacts.this,MainActivity.class));
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 
     private void fetchInfo() {
@@ -361,7 +316,6 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                                         mRecyclerView.setAdapter(new adapter(contacts));
                                         setUpRecyclerView(mRecyclerView);
                                     }
-
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
 
@@ -369,16 +323,12 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                                 });
                             }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -392,8 +342,6 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         rv.setAdapter(new adapter(contacts) );
     }
-
-
     private class adapter extends RecyclerView.Adapter<adapter.ViewHolder> {
 
         ArrayList<Users> contacts=new ArrayList<>();
@@ -421,8 +369,6 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                 chkbox = (CheckBox)itemView.findViewById(R.id.chkbox);
             }
         }
-
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.select_list, parent, false);
@@ -448,7 +394,6 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                 public void onClick(View view) {
                   /*  flag=1;
                     Log.d("test1234","card");
-
                    if(holder.chkbox.isChecked())
                     {
                         int i=0;
@@ -460,11 +405,9 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                                 break;
                             }
                             i++;
-
                         }
                         Log.d("test1234","removed "+selected_contacts.get(i).getName());
                         selected_contacts.remove(i);
-
                     }
                     else
                     {
@@ -493,14 +436,11 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                                     break;
                                 }
                                 i++;
-
                             }
                             if(flag1==1){
                                 Log.d("test1234","removed "+selected_contacts.get(i).getName());
                                 selected_contacts.remove(i);
                             }
-
-
                         }
                         else
                         {
@@ -508,11 +448,9 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
                             Log.d("test1234","added "+contacts.get(position).getName());
                         }
                     }
-
                     flag=0;
                 }
             });
-
         }
 
         @Override
