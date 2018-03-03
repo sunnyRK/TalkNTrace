@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/toolbar_chat"
-        android:background="@color/green_600">
+        android:background="@color/blue_new">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
