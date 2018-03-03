@@ -303,12 +303,8 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-
                             if (marker != null && flag[0] != "0" ) {
-
                                 marker.remove();
-
-
                             }
 
                             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {

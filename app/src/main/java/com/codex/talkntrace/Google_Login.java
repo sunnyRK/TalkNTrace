@@ -202,9 +202,6 @@ public class Google_Login extends AppCompatActivity {
         intent.putExtra("total",total1);
         startActivity(intent);
         Google_Login.this.finish();
-
-
-
     }
 
     @Override
