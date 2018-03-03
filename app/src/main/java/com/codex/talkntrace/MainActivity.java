@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.purple_900)));
+                                .getColor(R.color.blue_new)));
                         break;
                     }
 
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_group_add_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.purple_900)));
+                                .getColor(R.color.blue_new)));
                         break;
 
                     case R.id.tab_People:
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_refresh_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.purple_900)));
+                                .getColor(R.color.blue_new)));
                         break;
 
                     case R.id.tab_map:
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.INVISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.red_400)));
+                                .getColor(R.color.red_600)));
                         break;
 
                     case R.id.tab_settings:
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.INVISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.purple_900)));
+                                .getColor(R.color.blue_new)));
                         break;
                 }
 

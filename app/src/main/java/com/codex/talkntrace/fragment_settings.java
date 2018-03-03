@@ -3,6 +3,8 @@ package com.codex.talkntrace;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -124,6 +126,7 @@ public class fragment_settings extends Fragment {
                         alert = new Dialog(getActivity());
                         alert.setContentView(R.layout.password_protected_group);
                         alert.setTitle("Password Protected");
+                        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         final EditText password_group = (EditText)alert.findViewById(R.id.pwd_groups);
                         Button submitpwd = (Button) alert.findViewById(R.id.submitpwd);
                         Button forgot_pass = (Button) alert.findViewById(R.id.forgot_pass);
