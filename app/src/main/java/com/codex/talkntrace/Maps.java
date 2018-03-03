@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -84,7 +85,9 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
     String user_no;
     LocationRequest mLocationrequest;
     com.github.clans.fab.FloatingActionButton Normal,back;
-    com.github.clans.fab.FloatingActionButton Allmarker;
+    FloatingActionMenu Allmarker;
+    com.github.clans.fab.FloatingActionButton Allmarker2;
+    com.github.clans.fab.FloatingActionButton Allmarker3;
     com.github.clans.fab.FloatingActionButton Satellite;
     com.github.clans.fab.FloatingActionButton Terran;
     com.github.clans.fab.FloatingActionButton chatting;
@@ -141,7 +144,9 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         back = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.fab_back);
         Satellite = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.Satellite);
         Terran = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.Terran);
-        Allmarker = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.fab_current);
+        Allmarker = (com.github.clans.fab.FloatingActionMenu)findViewById(R.id.fab_current);
+        Allmarker2 = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.ZoomView);
+        Allmarker3 = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.mPoints);
         chatting= (com.github.clans.fab.FloatingActionButton)findViewById(R.id.chat_fab);
         chatting.setOnClickListener(new View.OnClickListener() {
             @Override
