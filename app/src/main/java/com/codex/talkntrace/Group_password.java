@@ -98,6 +98,7 @@ public class Group_password extends AppCompatActivity {
         mDatabaseUsers.child(no).child("password").setValue(pwd);
         mDatabaseLocationUser.child(no).child("password").setValue(pwd);
         Intent intent = new Intent(Group_password.this,SyncContacts.class);
+        intent.putExtra("refresh","0");
         startActivity(intent);
 
 

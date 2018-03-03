@@ -35,20 +35,24 @@ public class SyncContacts extends AppCompatActivity {
     private DatabaseReference mDatabase2;
     private DatabaseReference mDatabaseContacts;
     private DatabaseReference mDatabaseSingleChat;
-
+    DatabaseReference mDatabase;
+    int single_chat_numint;
     int num1;
     int PERMISSION_REQUEST_CONTACT = 10;
     private ArrayList<Users> alContacts = new ArrayList<>();
     private ArrayList<Users> CommonContacts = new ArrayList<>();
+    private ArrayList<Users> refreshContact = new ArrayList<>();
+    private ArrayList<String> tempContact = new ArrayList<>();
+    private ArrayList<String> refreshContactString = new ArrayList<>();
     String Cemail;
     String Uemail;
-    private ProgressDialog mProgress;
-
+    final int[] ref_flag = {0};
+    int[] temp_flag = {0};
+    int[] conflag = {0};
+    int nums;
     int flag=0;
-    int flag1 = 0;
-
+    String refresh_flag="0";
     ProgressDialog progressDialog;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     final int[] no = new int[1];
@@ -58,18 +62,31 @@ public class SyncContacts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // FirebaseDatabase.getInstance().setPersistenceEnabled(false);
         setContentView(R.layout.activity_sync_contacts);
-
+        mDatabaseContacts = FirebaseDatabase.getInstance().getReference().child("contacts");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        refresh_flag = getIntent().getExtras().getString("refresh");
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Log.d("nums","1");
                 Uemail = firebaseAuth.getCurrentUser().getEmail();
-                Log.d("nums",Uemail);
-                // Toast.makeText(SyncContacts.this,Uemail + "ok",Toast.LENGTH_SHORT).show();
+
+                Query query = mDatabase.orderByChild("email").equalTo(Uemail);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                        {
+                            String no = (String) postSnapshot.child("no").getValue();
+                            nums = Integer.parseInt(no);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
         };
-
     }
 
     @Override
@@ -81,7 +98,6 @@ public class SyncContacts extends AppCompatActivity {
                 ActivityCompat.requestPermissions(SyncContacts.this,
                         new String[]{android.Manifest.permission.READ_CONTACTS},
                         PERMISSION_REQUEST_CONTACT);
-
             }else{
                 startAsync();
             }
@@ -106,25 +122,16 @@ public class SyncContacts extends AppCompatActivity {
 
     public void startAsync()
     {
-
-
         progressDialog = new ProgressDialog(this);
-        //progressDialog.setMessage("Loading your Contacts...");
-
-        progressDialog = ProgressDialog.show(this, "Please wait",
-                "Loading your Contacts...", true);
-
+        progressDialog = ProgressDialog.show(this, "Please wait", "Loading your Contacts...", true);
         progressDialog.show();
-        //Toast.makeText(SyncContacts.this,"Loading contacts",Toast.LENGTH_SHORT).show();
         new Thread(new Runnable(){
 
             @Override
             public void run() {
-                Log.d("nums","3");
                 getContacts();
             }
         } ).start();
-
     }
 
     public void getContacts()
@@ -154,9 +161,7 @@ public class SyncContacts extends AppCompatActivity {
                 }
 
             } while (cursor.moveToNext()) ;
-            Log.d("nums","5");
         }
-        Log.d("nums","6");
         checkMembers();
     }
 
@@ -174,8 +179,8 @@ public class SyncContacts extends AppCompatActivity {
 
     public void getdata(final String contactNumber, final String contactName, final int last)
     {
-
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        final int[] flag = {0};
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("mob").equalTo(contactNumber);
 
@@ -190,36 +195,76 @@ public class SyncContacts extends AppCompatActivity {
 
                     if(Value[0]!=null)
                     {
-
                         int flag=0;
                         for (Users user:CommonContacts)
                         {
-
                             if(user.getMob().equals(contactNumber))
                             {
-
                                 flag=1;
                             }
                         }
                         if(flag==0)
                         {
-
                             Users user = new Users(contactName,contactNumber,Cemail,"1");
                             CommonContacts.add(user);
                         }
                     }
-
                 }
                 if(last==1)
                 {
-
-                    donesync();
+                    if(refresh_flag.equals("1"))
+                    {
+                        Query q = mDatabaseContacts.child(nums+"").child(nums+"");
+                        q.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                               if(temp_flag[0]==0) {
+                                   temp_flag[0] =1;
+                                   tempContact.clear();
+                                   refreshContact.clear();
+                                   for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                       String email = (String) snapshot.child("email").getValue();
+                                       tempContact.add(email);
+                                   }
+                                   refreshContactString = commoncontactstring();
+                                   for (String mail : refreshContactString) {
+                                       for (Users user:CommonContacts) {
+                                           if (user.getEmail().equals(mail)) {
+                                               refreshContact.add(user);
+                                           }
+                                       }
+                                   }
+                                   if (flag[0] == 0) {
+                                       writeData();
+                                       flag[0] = 1;
+                                   }
+                               }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                    else
+                    {
+                        donesync();
+                    }
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public ArrayList<String> commoncontactstring() {
+        ArrayList<String> s = new ArrayList<>();
+        for (Users user:CommonContacts)
+        {
+            s.add(user.getEmail());
+        }
+        s.removeAll(tempContact);
+        return s;
     }
 
     private void clearformat() {
@@ -250,10 +295,7 @@ public class SyncContacts extends AppCompatActivity {
 
 
     private void donesync() {
-
         progressDialog = new ProgressDialog(this);
-        //progressDialog.setMessage("Syncing your Contacts...");
-
         progressDialog = ProgressDialog.show(this, "Please wait",
                 "Syncing your Contacts...", true);
         progressDialog.show();
@@ -264,20 +306,17 @@ public class SyncContacts extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-
                 String num = dataSnapshot.getValue(String.class).toString();
                 num1 = Integer.parseInt(num);
                 num1++;
                 if(flag[0] ==0)
                 {
-
                     writeData();
                     flag[0] =1;
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("nums","failed sync");
                 Toast.makeText(SyncContacts.this,"Failed Done Sync",Toast.LENGTH_SHORT).show();
 
             }
@@ -286,75 +325,137 @@ public class SyncContacts extends AppCompatActivity {
 
     public void writeData()
     {
-        Log.d("nums","14");
         progressDialog = new ProgressDialog(this);
         mDatabaseContacts = FirebaseDatabase.getInstance().getReference().child("contacts");
         mDatabaseContacts.keepSynced(true);
         int i=1;
-        mDatabaseContacts.child("no").child("1").child("no").setValue(num1+"");
-        for(Users user: CommonContacts)
+        if(refresh_flag.equals("0"))
         {
-            mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("name").setValue(user.getName());
-            mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("mob").setValue(user.getMob());
-            mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("email").setValue(user.getEmail());
-            mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("no").setValue(i+"");
-            mDatabaseContacts.child(num1+"").child("total").setValue(i+"");
-            i++;
-            Log.d("nums","15");
-
+            mDatabaseContacts.child("no").child("1").child("no").setValue(num1+"");
+            for(Users user: CommonContacts)
+            {
+                mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("name").setValue(user.getName());
+                mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("mob").setValue(user.getMob());
+                mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("email").setValue(user.getEmail());
+                mDatabaseContacts.child(num1+"").child(num1+"").child(i+"").child("no").setValue(i+"");
+                mDatabaseContacts.child(num1+"").child("total").setValue(i+"");
+                i++;
+            }
         }
-        Log.d("nums","16");
+        else if(refresh_flag.equals("1"))
+        {
+            Query q = mDatabaseContacts.child(nums+"");
+            q.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                   if(conflag[0] == 0) {
+                       conflag[0] = 1;
+                       int contact_total_int = 0;
+                       String contact_total = (String) dataSnapshot.child("total").getValue();
+                       contact_total_int = Integer.parseInt(contact_total);
+                       contact_total_int++;
+                       for (Users user : refreshContact) {
+                           mDatabaseContacts.child(nums + "").child(nums + "").child(contact_total_int + "").child("name").setValue(user.getName());
+                           mDatabaseContacts.child(nums + "").child(nums + "").child(contact_total_int + "").child("mob").setValue(user.getMob());
+                           mDatabaseContacts.child(nums + "").child(nums + "").child(contact_total_int + "").child("email").setValue(user.getEmail());
+                           mDatabaseContacts.child(nums + "").child(nums + "").child(contact_total_int + "").child("no").setValue(contact_total_int + "");
+                           mDatabaseContacts.child(nums + "").child("total").setValue(contact_total_int + "");
+                           contact_total_int++;
+                       }
+                   }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
         writeDataIntoSingleChat();
     }
 
     public void writeDataIntoSingleChat()
     {
-        Log.d("nums","17");
         mDatabaseSingleChat = FirebaseDatabase.getInstance().getReference().child("SingleChat");
         mDatabaseSingleChat.keepSynced(true);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         mDatabase.keepSynced(true);
-        Log.d("nums","18");
         final int[] i = {1};
         int flag=0;
         final int[] no1 = new int[1];
 
         Query query = mDatabase.orderByChild("email").equalTo(Uemail);
-        Log.d("nums","19");
-        Log.d("nums",Uemail+" uwmail");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
                 {
-                    Log.d("nums","20");
                     String no = (String) postSnapshot.child("no").getValue();
                     no1[0] = Integer.parseInt(no);
                 }
-                for(Users user:CommonContacts)
+                if(refresh_flag.equals("0"))
                 {
-                    Log.d("nums","21");
-                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("email").setValue(user.getEmail());
-                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("name").setValue(user.getName());
-                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("totalmsg").setValue(0+"");
-                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("no").setValue(i[0] +"");
-                    mDatabaseSingleChat.child(no1[0] + "").child("total").child("no").setValue(i[0] +"");
-                    i[0]++;
+                    for(Users user:CommonContacts)
+                    {
+                        mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("email").setValue(user.getEmail());
+                        mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("name").setValue(user.getName());
+                        mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("totalmsg").setValue(0+"");
+                        mDatabaseSingleChat.child(no1[0] + "").child("chats").child(i[0] +"").child("no").setValue(i[0] +"");
+                        mDatabaseSingleChat.child(no1[0] + "").child("total").child("no").setValue(i[0] +"");
+                        i[0]++;
+                    }
+                    mDatabaseSingleChat.child("total").child("no").child(no1[0]+"");
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(SyncContacts.this,EmergencyContactSelection.class);
+                    startActivity(intent);
+                    SyncContacts.this.finish();
+
                 }
-                mDatabaseSingleChat.child("total").child("no").child(no1[0]+"");
-                progressDialog.dismiss();
-                Log.d("nums","22");
-                Intent intent = new Intent(SyncContacts.this,EmergencyContactSelection.class);
-                //Intent intent = new Intent(SyncContacts.this,MainActivity.class);
-                startActivity(intent);
-               SyncContacts.this.finish();
+                else if(refresh_flag.equals("1"))
+                {
+
+                    Query q = mDatabaseSingleChat.child("7").child("total");
+                    q.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                String single_chat_num = (String) dataSnapshot.child("no").getValue();
+                           // Log.d("hey1", String.valueOf(refreshContact.size()));
+                            single_chat_numint = Integer.parseInt(single_chat_num);
+                                single_chat_numint++;
+
+                            if(ref_flag[0] ==0)
+                            {
+                                ref_flag[0] =1;
+                                for(Users user:refreshContact)
+                                {
+                                    Log.d("hi123", String.valueOf(refreshContact.size()));
+                                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(single_chat_numint +"").child("email").setValue(user.getEmail());
+                                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(single_chat_numint +"").child("name").setValue(user.getName());
+                                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(single_chat_numint +"").child("totalmsg").setValue(0+"");
+                                    mDatabaseSingleChat.child(no1[0] + "").child("chats").child(single_chat_numint +"").child("no").setValue(single_chat_numint +"");
+                                    mDatabaseSingleChat.child(no1[0] + "").child("total").child("no").setValue(single_chat_numint +"");
+                                    single_chat_numint++;
+
+                                }
+                                progressDialog.dismiss();
+                                Intent intent = new Intent(SyncContacts.this,MainActivity.class);
+                                startActivity(intent);
+                                SyncContacts.this.finish();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
-                Log.d("nums","failed to write");
                 Toast.makeText(SyncContacts.this,"Failed to Retrieve Chat",Toast.LENGTH_SHORT).show();
-
             }
         });
     }

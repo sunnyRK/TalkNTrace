@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     private final int TAB_FIVE = FragNavController.TAB5;
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
     private String Userno;
-    private ImageButton menubtn;
+    public static ImageButton menubtn;
 
     /*End of global data members*/
 
@@ -169,7 +169,9 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                 }
                 else  if(mBottomBar.getCurrentTabPosition()==TAB_THREE)
                 {
-
+                    Intent i = new Intent(MainActivity.this,SyncContacts.class);
+                    i.putExtra("refresh","1");
+                    startActivity(i);
                 }
                 else
                 {

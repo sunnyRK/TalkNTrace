@@ -15,8 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,10 +42,10 @@ public class fragment_people extends Fragment {
     DatabaseReference mDatabaseContacts,mDatabseUsers;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
-
     String UserEmail;
     private String User_No;
     private String User_Mobile;
+
 
     @Override
     public void onStart() {
@@ -54,6 +56,7 @@ public class fragment_people extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -66,7 +69,17 @@ public class fragment_people extends Fragment {
                 }
             }
         };
+        MainActivity.menubtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),SyncContacts.class);
+                i.putExtra("refresh","1");
+                startActivity(i);
+            }
+        });
+
     }
+
 
     public void fetchInfo()
     {
@@ -225,8 +238,7 @@ public class fragment_people extends Fragment {
         public int getItemCount() {
             return contacts.size();
         }
-
-
-
     }
+
+
 }
