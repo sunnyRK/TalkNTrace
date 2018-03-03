@@ -9,15 +9,14 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/green_500"
+        android:background="@color/blue_new"
         android:id="@+id/toolbar">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,6 +57,7 @@
                 android:textSize="20dp"
                 android:id="@+id/username"
                 android:textColor="@color/white"
+                android:fontFamily="@font/montreal_semibold"
                 android:maxWidth="200dp"
                 android:textStyle="bold"/>
 
@@ -93,7 +93,7 @@
         android:layout_height="match_parent"
         android:id="@+id/container"
         android:layout_below="@+id/toolbar"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="68px"
         />
 
     <com.roughike.bottombar.BottomBar
