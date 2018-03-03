@@ -201,7 +201,7 @@ public class fragment_chats extends Fragment {
                                     }
                             );
                                        Collections.reverse(userDetail);*/
-                                     recyclerView.setAdapter(new adapter(recyclerView.getContext(), userDetail, getActivity()));
+                            recyclerView.setAdapter(new adapter(recyclerView.getContext(), userDetail, getActivity()));
                             // setUpRecyclerView(recyclerView);
                             flag++;
 
@@ -231,26 +231,26 @@ public class fragment_chats extends Fragment {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            recyclerView = (RecyclerView) inflater.inflate(R.layout.chats_fragment,container,false);
-            setUpRecyclerView(recyclerView);
-            return recyclerView;
-        }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.chats_fragment,container,false);
+        setUpRecyclerView(recyclerView);
+        return recyclerView;
+    }
 
-        private void setUpRecyclerView(RecyclerView rv)
-        {
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-            rv.setAdapter(new adapter(rv.getContext(),userDetail, getActivity()) );
-            Log.d("Firebase-data","user adapter");
-        }
+    private void setUpRecyclerView(RecyclerView rv)
+    {
+        rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+        rv.setAdapter(new adapter(rv.getContext(),userDetail, getActivity()) );
+        Log.d("Firebase-data","user adapter");
+    }
 
-        /*Inner Class Adapter*/
+    /*Inner Class Adapter*/
     private class adapter extends RecyclerView.Adapter<adapter.ViewHolder>
     {
         /*Global data member*/
-       ArrayList<Users> userDetail=new ArrayList<>();
+        ArrayList<Users> userDetail=new ArrayList<>();
         Context context;
         Activity activity;
 
@@ -297,7 +297,8 @@ public class fragment_chats extends Fragment {
                 holder.lastmsg.setText("audio");
             }
             else
-                holder.lastmsg.setText(userDetail.get(position).getLastmsg());
+                holder.lastmsg.setText(userDetail.get(position).getMob());
+
             Glide.with(context).load(userDetail.get(position).getPhotourl()).centerCrop().into(holder.imgView);
             Log.d("Firebase-data","user on the way");
             holder.cardView.setOnClickListener(new View.OnClickListener() {

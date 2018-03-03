@@ -2,6 +2,7 @@ package com.codex.talkntrace;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -119,8 +121,8 @@ public class fragment_emergency extends Fragment {
                 number1 = num1.getText().toString();
                 number2 = num2.getText().toString();
                 number3 = num3.getText().toString();
-
-                messages += "Hi, i am "+username +".I need a help you.please help me if you can\n,My Location is";
+                messages = "";
+                messages += username + " needs help. Location link:-" ;
                 messages += " http://maps.google.com/maps/place/"+latitude+","+longitude+"/@"+latitude+","+longitude+",17z ";
                 sendMessage(messages,number1,number2,number3);
 
@@ -134,10 +136,9 @@ public class fragment_emergency extends Fragment {
                 number1 = num1.getText().toString();
                 number2 = num2.getText().toString();
                 number3 = num3.getText().toString();
-
-                messages2 += "Hi, i am "+username +".I am in Very Emergency.please help me as soon as possible\n,My Location is";
+                messages2 = "";
+                messages2 += username +" needs help Emergency. Location Link:-";
                 messages2 += " http://maps.google.com/maps/place/"+latitude+","+longitude+"/@"+latitude+","+longitude+",17z ";
-
                 sendMessage(messages2,number1,number2,number3);
             }
         });
@@ -219,10 +220,6 @@ public class fragment_emergency extends Fragment {
                 }
             }
         };
-
-
-
-
     }
 
     @Override
@@ -232,6 +229,10 @@ public class fragment_emergency extends Fragment {
     }
 
     private void sendMessage(String messages, String number1,String number2,String number3) {
+/*
+        Toast.makeText(getContext(),number1 + " " + messages,Toast.LENGTH_SHORT).show();
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(number1, null, messages, null, null);*/
         for(int i=1;i<=3;i++)
         {
             if(i==1)

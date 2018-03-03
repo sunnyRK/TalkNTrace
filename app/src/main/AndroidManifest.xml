@@ -65,7 +65,8 @@
         <activity android:name=".Group_password" />
         <activity android:name=".Forgot_Password" />
         <activity android:name=".enter_pin" />
-        <activity android:name=".reset_password"></activity>
+        <activity android:name=".reset_password" />
+        <activity android:name=".DemoActivity"></activity>
     </application>
 
 </manifest>

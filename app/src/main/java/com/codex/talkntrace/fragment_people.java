@@ -69,14 +69,6 @@ public class fragment_people extends Fragment {
                 }
             }
         };
-        MainActivity.menubtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(),SyncContacts.class);
-                i.putExtra("refresh","1");
-                startActivity(i);
-            }
-        });
 
     }
 
