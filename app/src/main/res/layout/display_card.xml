@@ -44,7 +44,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="85dp"
             android:layout_marginTop="14dp"
-            android:text="9876543210"
+            android:text=""
             android:textSize="14sp" />
 
         <RelativeLayout
