@@ -152,6 +152,8 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
             }
         });
 
+
+
         //user_location = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.fab_full_view);
         //Hybrid = (FloatingActionButton)findViewById(R.id.Hybrid);
         nestedScrollView = (NestedScrollView)findViewById(R.id.view1);
@@ -270,6 +272,14 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
     public void onMapReady(GoogleMap googleMap) {
 
         mgoogleMap = googleMap;
+        mgoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                DatabaseReference mref2 = mRef.child("GroupChat").child(groupnum).child("terrorspot").push();
+                mref2.child("lat").setValue(latLng.latitude+"");
+                mref2.child("long").setValue(latLng.longitude+"");
+            }
+        });
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
