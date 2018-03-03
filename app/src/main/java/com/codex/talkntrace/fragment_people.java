@@ -68,7 +68,16 @@ public class fragment_people extends Fragment {
                     fetchInfo();
                 }
             }
-        };
+        };/*
+        MainActivity.menubtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"hi2",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(),SyncContacts.class);
+                i.putExtra("refresh","1");
+                startActivity(i);
+            }
+        });*/
     }
 
 
