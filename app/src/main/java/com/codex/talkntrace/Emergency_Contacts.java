@@ -147,6 +147,7 @@ public class Emergency_Contacts extends AppCompatActivity {
 
 
 
+
     }
 
 
@@ -205,13 +206,13 @@ public class Emergency_Contacts extends AppCompatActivity {
 
 
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(Emergency_Contacts.this,MainActivity.class));
-    }
-
+    /*
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            startActivity(new Intent(Emergency_Contacts.this,fragment_settings.class));
+        }
+    */
     @Override
     protected void onStart() {
         super.onStart();

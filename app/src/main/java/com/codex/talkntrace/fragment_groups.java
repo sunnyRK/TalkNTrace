@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -216,9 +218,10 @@ public class fragment_groups extends Fragment{
                 public void onClick(View view) {
                     if(group_type.equals("Secure Group"))
                     {
+
                         alert = new Dialog(getActivity());
                         alert.setContentView(R.layout.password_protected_group);
-
+                        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         alert.setTitle("Password Protected Group");
                         final EditText password_group = (EditText)alert.findViewById(R.id.pwd_groups);
                         Button submitpwd = (Button) alert.findViewById(R.id.submitpwd);

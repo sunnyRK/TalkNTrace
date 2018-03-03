@@ -296,8 +296,8 @@ public class fragment_chats extends Fragment {
             else if(type.equals("3")) {
                 holder.lastmsg.setText("audio");
             }
-            else
-                holder.lastmsg.setText(userDetail.get(position).getLastmsg());
+            else if(userDetail.get(position).getLastmsg() != null)
+                holder.lastmsg.setText(encryption.dcrypt(userDetail.get(position).getLastmsg()));
             Glide.with(context).load(userDetail.get(position).getPhotourl()).centerCrop().into(holder.imgView);
             Log.d("Firebase-data","user on the way");
             holder.cardView.setOnClickListener(new View.OnClickListener() {

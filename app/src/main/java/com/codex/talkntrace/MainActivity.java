@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         menubtn.setVisibility(View.INVISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
-                                .getColor(R.color.red_600)));
+                                .getColor(R.color.red_700)));
                         break;
 
                     case R.id.tab_settings:
