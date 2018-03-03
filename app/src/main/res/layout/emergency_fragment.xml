@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_50">
+    android:background="@drawable/back_minimal">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -12,25 +12,27 @@
             android:id="@+id/num11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:visibility="gone"
             android:text="Number 1"
-             />
+            />
 
         <EditText
             android:id="@+id/num22"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/num11"
+            android:visibility="gone"
             android:text="Number 2"
-             />
+            />
 
         <EditText
             android:id="@+id/num33"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/num22"
+            android:visibility="gone"
             android:text="Number 3"
-             />
+            />
 
 
     </RelativeLayout>
@@ -39,10 +41,11 @@
         android:id="@+id/timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="30dp"
         android:gravity="center"
         android:text="5"
-        android:textColor="@color/red_500"
+        android:fontFamily="@font/montreal_bold"
+        android:textColor="@color/grey_200"
         android:textSize="120sp"
         android:textStyle="bold" />
 
@@ -54,7 +57,7 @@
 
         <Button
             android:id="@+id/call"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/gradients"
@@ -65,17 +68,16 @@
             android:padding="20dp"
             android:text="Call Trusted ones"
             android:textColor="@color/white"
+            android:fontFamily="@font/montreal_semibold"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/nearMap"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-
-            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/call"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
             android:background="@drawable/gradients"
             android:clickable="true"
             android:focusable="false"
@@ -83,6 +85,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="20dp"
             android:text="Nearby Help"
+            android:fontFamily="@font/montreal_semibold"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -102,6 +105,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="20dp"
             android:text="Cancel"
+            android:fontFamily="@font/montreal_semibold"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -112,7 +116,9 @@
             android:layout_below="@id/cancel"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/grey_200"
+            android:fontFamily="@font/montreal_semibold"
             android:text="Select your level of Emergency"
             android:textAlignment="center"
             android:textSize="22sp"
@@ -132,6 +138,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/gradients"
                 android:clickable="true"
                 android:focusable="false"
@@ -139,6 +146,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="20dp"
                 android:text="Normal"
+                android:fontFamily="@font/montreal_semibold"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -149,6 +157,7 @@
                 android:layout_below="@+id/cancel"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@+id/SendBtnMsg1"
                 android:background="@drawable/gradients"
@@ -158,6 +167,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="20dp"
                 android:text="Critical"
+                android:fontFamily="@font/montreal_semibold"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </RelativeLayout>

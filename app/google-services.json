@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "626589660026-qemhjpcdssll142i2cjq50c9kcksdo64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codex.talkntrace",
+            "certificate_hash": "88dda212e89742176bcc48b6544cf2d57e1ea945"
+          }
+        },
+        {
+          "client_id": "626589660026-br4epjhmh4bnb14tk7rjrgs30b1jueea.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codex.talkntrace",
+            "certificate_hash": "253074ad2be6e2bec60cca2f5bfc27d089057a63"
+          }
+        },
+        {
           "client_id": "626589660026-bmjabd8ljl3nth43t3ris7f8qfsflkc1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
