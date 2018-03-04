@@ -296,14 +296,15 @@ public class fragment_chats extends Fragment {
             else if(type.equals("3")) {
                 holder.lastmsg.setText("audio");
             }
-            else if(userDetail.get(position).getLastmsg()!=null){
-                holder.lastmsg.setText(encryption.dcrypt(userDetail.get(position).getLastmsg()));
-            }
-            else
+            //else if(userDetail.get(position).getLastmsg()!=null){
+                //holder.lastmsg.setText(encryption.dcrypt(userDetail.get(position).getLastmsg()));
+                holder.lastmsg.setText(userDetail.get(position).getMob());
+            //}
+            /*else
             {
                 Log.d("heyy",userDetail.get(position).getLastmsg()+"");
                 holder.cardView.setVisibility(View.GONE);
-            }
+            }*/
 
 
             Glide.with(context).load(userDetail.get(position).getPhotourl()).centerCrop().into(holder.imgView);

@@ -27,15 +27,17 @@ public class Forgot_Password extends AppCompatActivity {
     DatabaseReference mDatabase;
     private FirebaseAuth mauth;
     private FirebaseAuth.AuthStateListener mAuthListner;
-    private String useremail;
+    private String useremail,username;
     private String User_No;
     private DatabaseReference mDatabaseTrustedContacts;
     private ArrayList<Users> userDetail = new ArrayList<>();
     Button sendPin;
     int pin;
-    private String pins;
+    private String pins,mob;
     private int flag=0;
-    private int flag2=0;
+    private int flag2=0,flag_last=0;
+    int f1=0,f2=0,f3=0,f4=0,num1_int,num2_int;
+    String num1,num2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class Forgot_Password extends AppCompatActivity {
                 else
                 {
                     useremail = firebaseAuth.getCurrentUser().getEmail();
+                    username = firebaseAuth.getCurrentUser().getDisplayName();
                     fetchInfo();
                 }
             }
@@ -66,10 +69,17 @@ public class Forgot_Password extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 retrieveTrustedContacts();
-
+              //  function();
             }
         });
 
+    }
+
+    private void function() {
+            for (Users mail : userDetail)
+            {
+                sendPintoTrust(mail.getEmail());
+            }
     }
 
     private void sendPintoTrust(final String email) {
@@ -90,41 +100,126 @@ public class Forgot_Password extends AppCompatActivity {
                     final String no = (String) snapshot.child("no").getValue();
 
                     final DatabaseReference mDatabase1 = FirebaseDatabase.getInstance().getReference().child("SingleChat");
+                    final DatabaseReference mDatabase2 = FirebaseDatabase.getInstance().getReference().child("contacts");
+                    f1=0;
                     final Query query1 = mDatabase1.child(no).child("chats").orderByChild("email").equalTo(useremail);
                     query1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            if(flag1[0] ==0){
-                                flag1[0] =1;
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String nonew = (String) snapshot.child("no").getValue();
-                                int totalmsg = Integer.parseInt((String) snapshot.child("totalmsg").getValue());
-                                totalmsg+=1;
-                                Log.d("emergency",totalmsg+"");
-
-                                mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("msg").setValue(pins+"");
-                                mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("sender").setValue(useremail);
-                                mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("time").setValue(ServerValue.TIMESTAMP);
-                                mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("type").setValue("0");
-                                mDatabase1.child(no).child("chats").child(nonew).child("totalmsg").setValue(totalmsg+"");
-                                Query query2 = mDatabase1.child(User_No).child("chats").orderByChild("email").equalTo(email);
-                                final int finalTotalmsg = totalmsg;
-                                query2.addValueEventListener(new ValueEventListener() {
+                            if(dataSnapshot.getValue()==null)
+                            {
+                                Log.d("12345","emptyy"+email);
+                                Query q1 = mDatabase1.child(no).child("total");
+                                f1=0;
+                                q1.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(f1==0)
+                                        {
+                                            Log.d("12345","1"+email);
 
-                                        if(flag2[0] ==0) {
-                                            flag2[0] = 1;
-                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                String no2 = (String) snapshot.child("no").getValue();
-                                                mDatabase1.child(User_No).child("chats").child(no2).child("totalmsg").setValue(finalTotalmsg + "");
-                                            }
+                                            f1=1;
+                                            num1 = (String)dataSnapshot.child("no").getValue();
+                                            num1_int = Integer.parseInt(num1);
+                                            num1_int++;
+
+                                            flag1[0] =1;
+                                            mDatabase1.child(no).child("chats").child(num1_int+"").child("totalmsg").setValue(0+"");
+                                            mDatabase1.child(no).child("chats").child(num1_int+"").child("email").setValue(useremail);
+                                            mDatabase1.child(no).child("chats").child(num1_int+"").child("no").setValue(num1_int+"");
+                                            mDatabase1.child(no).child("chats").child(num1_int+"").child("name").setValue(username);
+                                            mDatabase1.child(no).child("total").child("no").setValue(num1_int+"");
+
+                                            Query q = mDatabase2.child(no);
+                                            f2=0;
+                                            q.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    if(f2==0)
+                                                    {
+                                                        Log.d("12345","2"+email);
+                                                        f2=1;
+                                                            num2 = (String)dataSnapshot.child("total").getValue();
+                                                            num2_int = Integer.parseInt(num2);
+                                                            num2_int++;
+                                                        Log.d("12345",num2_int + "num2"+email);
+                                                        mDatabase2.child(no).child(no).child(num2_int+"").child("email").setValue(useremail);
+                                                        mDatabase2.child(no).child(no).child(num2_int+"").child("mob").setValue(mob);
+                                                        mDatabase2.child(no).child(no).child(num2_int+"").child("name").setValue(username);
+                                                        mDatabase2.child(no).child(no).child(num2_int+"").child("no").setValue(num2_int);
+                                                        mDatabase2.child(no).child("total").setValue(num2_int+"");
+
+                                                        final Query q3 = mDatabase1.child(no).child("chats").orderByChild("email").equalTo(useremail);
+                                                        f3 =0;
+                                                        q3.addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                if(f3 ==0){
+                                                                    Log.d("12345","3"+email);
+                                                                    f3 =1;
+                                                                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                                                                        String nonew = (String) snapshot.child("no").getValue();
+                                                                        int totalmsg = Integer.parseInt((String) snapshot.child("totalmsg").getValue());
+                                                                        totalmsg+=1;
+                                                                        Log.d("12345",totalmsg+" totalmsg"+email);
+
+                                                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("msg").setValue(pins+"");
+                                                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("sender").setValue(useremail);
+                                                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("time").setValue(ServerValue.TIMESTAMP);
+                                                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("type").setValue("0");
+                                                                        mDatabase1.child(no).child("chats").child(nonew).child("totalmsg").setValue(totalmsg+"");
+                                                                        Query query2 = mDatabase1.child(User_No).child("chats").orderByChild("email").equalTo(email);
+                                                                        final int finalTotalmsg = totalmsg;
+                                                                        flag2[0]=0;
+                                                                        query2.addValueEventListener(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                                                if(flag2[0] ==0) {
+                                                                                    Log.d("12345","4"+email);
+                                                                                    flag2[0] = 1;
+                                                                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                                                        String no2 = (String) snapshot.child("no").getValue();
+                                                                                        mDatabase1.child(User_No).child("chats").child(no2).child("totalmsg").setValue(finalTotalmsg + "");
+                                                                                    }
+                                                                                }
+                                                                                startActivity(new Intent(Forgot_Password.this,enter_pin.class));
+                                                                                Forgot_Password.this.finish();
+                                                                            }
+
+
+                                                                            @Override
+                                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+
                                         }
-                                        startActivity(new Intent(Forgot_Password.this,enter_pin.class));
-                                        Forgot_Password.this.finish();
-                                    }
 
+
+
+
+                                    }
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
@@ -132,7 +227,51 @@ public class Forgot_Password extends AppCompatActivity {
                                     }
                                 });
                             }
+                            else
+                            {
+
+                                if(flag1[0] ==0){
+                                    Log.d("12345","fill");
+                                    flag1[0] =1;
+                                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                Log.d("pin123","snapshotempty123");
+                                        String nonew = (String) snapshot.child("no").getValue();
+                                        int totalmsg = Integer.parseInt((String) snapshot.child("totalmsg").getValue());
+                                        totalmsg+=1;
+                                        Log.d("emergency",totalmsg+"");
+
+                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("msg").setValue(pins+"");
+                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("sender").setValue(useremail);
+                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("time").setValue(ServerValue.TIMESTAMP);
+                                        mDatabase1.child(no).child("chats").child(nonew).child("msgs").child("msg"+totalmsg).child("type").setValue("0");
+                                        mDatabase1.child(no).child("chats").child(nonew).child("totalmsg").setValue(totalmsg+"");
+                                        Query query2 = mDatabase1.child(User_No).child("chats").orderByChild("email").equalTo(email);
+                                        final int finalTotalmsg = totalmsg;
+                                        query2.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                if(flag2[0] ==0) {
+                                                    flag2[0] = 1;
+                                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                        String no2 = (String) snapshot.child("no").getValue();
+                                                        mDatabase1.child(User_No).child("chats").child(no2).child("totalmsg").setValue(finalTotalmsg + "");
+                                                    }
+                                                }
+                                                startActivity(new Intent(Forgot_Password.this,enter_pin.class));
+                                                Forgot_Password.this.finish();
+                                            }
+
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                }
                             }
+
                         }
 
                         @Override
@@ -173,6 +312,7 @@ public class Forgot_Password extends AppCompatActivity {
                     if (flag == 0)
                     {
                         User_No = (String) postsnapshot.child("no").getValue();
+                        mob = (String) postsnapshot.child("mob").getValue();
                     // retrieveTrustedContacts();
                     DatabaseReference mDatajump = FirebaseDatabase.getInstance().getReference().child("pin").child(User_No);
                     mDatajump.addValueEventListener(new ValueEventListener() {
@@ -229,8 +369,10 @@ public class Forgot_Password extends AppCompatActivity {
                     Log.d("trusted_11",user.getName());
                     Log.d("trusted_11",user.getNo());
                     Log.d("trusted_11",user.getPhotourl());
-                    sendPintoTrust(user.getEmail());
+                    //sendPintoTrust(user.getEmail());
                 }
+                function();
+
             }
 
             @Override

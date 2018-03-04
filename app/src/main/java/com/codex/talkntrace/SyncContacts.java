@@ -420,7 +420,7 @@ public class SyncContacts extends AppCompatActivity {
                                 String single_chat_num = (String) dataSnapshot.child("no").getValue();
                            // Log.d("hey1", String.valueOf(refreshContact.size()));
                             single_chat_numint = Integer.parseInt(single_chat_num);
-                                single_chat_numint++;
+                            single_chat_numint++;
 
                             if(ref_flag[0] ==0)
                             {
