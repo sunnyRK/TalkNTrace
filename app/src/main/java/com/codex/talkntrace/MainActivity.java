@@ -165,10 +165,12 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                 }
                 else  if(mBottomBar.getCurrentTabPosition()==TAB_SECOND)
                 {
+                    Toast.makeText(MainActivity.this,"hi1",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this,ReplaceEmergencyContacts.class));
                 }
                 else  if(mBottomBar.getCurrentTabPosition()==TAB_THREE)
                 {
+                    Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(MainActivity.this,SyncContacts.class);
                     i.putExtra("refresh","1");
                     startActivity(i);

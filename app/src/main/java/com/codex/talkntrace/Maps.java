@@ -72,13 +72,18 @@ import module.Route;
 
 
 public class Maps extends AppCompatActivity implements OnMarkerClickListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,DirectionFinderListener {
-    GoogleMap mgoogleMap;
+    GoogleMap mgoogleMap,mMap;
 
     GoogleApiClient mgoogleapiclient;
     Query query;
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mRefTerrorspot = FirebaseDatabase.getInstance().getReference().child("GroupChat");
     FirebaseAuth mauth;
     FirebaseAuth.AuthStateListener mAuthListner;
+    MarkerOptions M1;
+
+
+    int flag=0,zoom_flag=0;
 
     Bitmap image = null;
     String useremail;
@@ -178,7 +183,10 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         Terran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mgoogleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                mRefTerrorspot.child(groupnum).child("terrorspot").removeValue();
+                mMap.clear();
+                initmap();
+                //mgoogleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
             }
         });
         Allmarker.setOnClickListener(new View.OnClickListener() {
@@ -277,12 +285,16 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
     public void onMapReady(GoogleMap googleMap) {
 
         mgoogleMap = googleMap;
-        mgoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        mMap = googleMap;
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                DatabaseReference mref2 = mRef.child("GroupChat").child(groupnum).child("terrorspot").push();
-                mref2.child("lat").setValue(latLng.latitude+"");
-                mref2.child("long").setValue(latLng.longitude+"");
+                if(flag==0)
+                {
+                    DatabaseReference mref2 = mRef.child("GroupChat").child(groupnum).child("terrorspot").push();
+                    mref2.child("lat").setValue(latLng.latitude+"");
+                    mref2.child("long").setValue(latLng.longitude+"");
+                }
             }
         });
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -358,13 +370,35 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                                 //mgoogleMap.animateCamera(cameraUpdate);
                                 //     Picasso.with(Maps.this).load(photourl).into(temp);
                                 //   image = ((BitmapDrawable) temp.getDrawable()).getBitmap();
-                                MarkerOptions M1 = new MarkerOptions().position(latLng).title(email[0]).icon(BitmapDescriptorFactory.fromBitmap(image)).anchor(0.5f,1);
+                                MarkerOptions M12 = new MarkerOptions().position(latLng).title(email[0]).icon(BitmapDescriptorFactory.fromBitmap(image)).anchor(0.5f,1);
                                 mgoogleMap.setOnMarkerClickListener(Maps.this);
-                                marker = mgoogleMap.addMarker(M1);
+                                marker = mgoogleMap.addMarker(M12);
                                 Boundsupdate(groupnum);
 //                                builder.include(latLng);
                                 //                              bounds = builder.build();
                             }
+                            //Retrieve of terror spots
+                            Query terrospot = mRefTerrorspot.child(groupnum).child("terrorspot");
+                            terrospot.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                        try {
+                                            Double lat  = Double.parseDouble((String)snapshot.child("lat").getValue());
+                                            Double lon  =Double.parseDouble((String) snapshot.child("long").getValue());
+                                            LatLng latLng1 = new LatLng(lat,lon);
+                                            M1 = new MarkerOptions().position(latLng1).title("terrorspot");
+                                            mMap.addMarker(M1);
+                                        }catch (Exception e){}
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                         }
 
                         public void onCancelled(DatabaseError databaseError) {
@@ -372,6 +406,7 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                         }
                     });
                 }
+
             }
 
             @Override
@@ -439,29 +474,42 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         final String[] user_Longitude = new String[1];
         final String[] Origin = new String[1];
         final String[] Destination = new String[1];
-        Query Marker = mRef.child("LocationUser").orderByChild("email").equalTo(marker.getTitle());
-        Marker.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (Flag[0] == 0) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+        if((marker.getTitle().equals("terrorspot")))
+        {
+                LatLng latLng = marker.getPosition();
+                Latitude[0] = latLng.latitude+"";
+                Longitude[0] = latLng.longitude+"";
+                Destination[0] = Latitude[0] + ","+ Longitude[0];
+                Flag[0]=1;
+                ContactName.setText("Terror spot");
 
-                        ContactName.setText((String) postSnapshot.child("name").getValue());
-                        //    ContactNo.setText((String) postSnapshot.child("mob").getValue());
-                        Latitude[0] = (String) postSnapshot.child("latitude").getValue();
-                        Longitude[0] = (String) postSnapshot.child("longitude").getValue();
-                        Picasso.with(getApplication()).load((String) postSnapshot.child("photourl").getValue()).resize(50, 50).centerCrop().into(ContactImg);
-                        Destination[0] = Latitude[0] + ","+ Longitude[0];
+        }
+        else {
+            Query Marker = mRef.child("LocationUser").orderByChild("email").equalTo(marker.getTitle());
+            Marker.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (Flag[0] == 0) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                            ContactName.setText((String) postSnapshot.child("name").getValue());
+                            //    ContactNo.setText((String) postSnapshot.child("mob").getValue());
+                            Latitude[0] = (String) postSnapshot.child("latitude").getValue();
+                            Longitude[0] = (String) postSnapshot.child("longitude").getValue();
+                            Picasso.with(getApplication()).load((String) postSnapshot.child("photourl").getValue()).resize(50, 50).centerCrop().into(ContactImg);
+                            Destination[0] = Latitude[0] + ","+ Longitude[0];
+                        }
+                        Flag[0] = 1;
                     }
-                    Flag[0] = 1;
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+
         mRef.child("LocationUser").child(user_no).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -595,8 +643,12 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                                     Log.d("latlng12345", String.valueOf(latLng));
                                     builder.include(latLng);
                                     bounds = builder.build();
-
-
+                                }
+                                if(zoom_flag==0)
+                                {
+                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds,25,25,5);
+                                    mgoogleMap.animateCamera(cameraUpdate);
+                                    zoom_flag=1;
                                 }
 
                                 //  flag1[0] = "1";
@@ -608,6 +660,7 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                             }
                         });
                     }
+
                     flag[0] ="1";
                 }
             }
