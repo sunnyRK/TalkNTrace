@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     private final int TAB_FIVE = FragNavController.TAB5;
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
     private String Userno;
-    public static ImageButton menubtn;
+    public ImageButton menubtn;
 
     /*End of global data members*/
 
@@ -159,24 +159,28 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         menubtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Toast.makeText(MainActivity.this,"1",Toast.LENGTH_SHORT).show();
                 if(mBottomBar.getCurrentTabPosition()==TAB_FIRST)
                 {
+                    Intent i = new Intent(MainActivity.this,SyncContacts.class);
+                    i.putExtra("refresh","1");
+                    startActivity(i);
+                    //Toast.makeText(MainActivity.this,"11",Toast.LENGTH_SHORT).show();
 
                 }
                 else  if(mBottomBar.getCurrentTabPosition()==TAB_SECOND)
                 {
-                    Toast.makeText(MainActivity.this,"hi1",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this,"hi1",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this,ReplaceEmergencyContacts.class));
                 }
                 else  if(mBottomBar.getCurrentTabPosition()==TAB_THREE)
                 {
-                    Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(MainActivity.this,SyncContacts.class);
-                    i.putExtra("refresh","1");
-                    startActivity(i);
+                    //Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
+                    Toast.makeText(MainActivity.this,"12",Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -192,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                 {
                     case R.id.tab_chats: {
                         mNavController.switchTab(TAB_FIRST);
+                        fragment_emergency.flag_emergency=1;
+                        fragment_emergency.f=10;
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
                         toolbar.setBackgroundDrawable(new ColorDrawable(getResources()
@@ -200,6 +206,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                     }
 
                     case R.id.tab_groups:
+                        fragment_emergency.flag_emergency=1;
+                        fragment_emergency.f=10;
                         mNavController.switchTab(TAB_SECOND);
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_group_add_white_24dp));
@@ -208,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         break;
 
                     case R.id.tab_People:
+                        fragment_emergency.flag_emergency=1;
+                        fragment_emergency.f=10;
                         mNavController.switchTab(TAB_THREE);
                         menubtn.setVisibility(View.VISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_refresh_white_24dp));
@@ -216,6 +226,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         break;
 
                     case R.id.tab_map:
+                        fragment_emergency.flag_emergency=1;
+                        fragment_emergency.f=10;
                         mNavController.switchTab(TAB_FOUR);
                         menubtn.setVisibility(View.INVISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));
@@ -224,6 +236,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                         break;
 
                     case R.id.tab_settings:
+                        fragment_emergency.flag_emergency=1;
+                        fragment_emergency.f=10;
                         mNavController.switchTab(TAB_FIVE);
                         menubtn.setVisibility(View.INVISIBLE);
                         menubtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_white_24dp));

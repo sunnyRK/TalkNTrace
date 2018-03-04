@@ -143,7 +143,7 @@ public class fragment_chats extends Fragment {
                     totalmsg = (String)postSnapshot.child("totalmsg").getValue();
                     if(totalmsg != null && totalmsg != "0")
                     {
-                        mDatabaseSingleChat2.child(no).child("msgs").child("msg"+totalmsg).addValueEventListener(new ValueEventListener() {
+                        mDatabaseSingleChat2.child(no).child("msgs").child("msg"+totalmsg).orderByChild("time").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 msg[0] = (String)dataSnapshot.child("msg").getValue();
@@ -296,8 +296,15 @@ public class fragment_chats extends Fragment {
             else if(type.equals("3")) {
                 holder.lastmsg.setText("audio");
             }
+            else if(userDetail.get(position).getLastmsg()!=null){
+                holder.lastmsg.setText(encryption.dcrypt(userDetail.get(position).getLastmsg()));
+            }
             else
-                holder.lastmsg.setText(userDetail.get(position).getMob());
+            {
+                Log.d("heyy",userDetail.get(position).getLastmsg()+"");
+                holder.cardView.setVisibility(View.GONE);
+            }
+
 
             Glide.with(context).load(userDetail.get(position).getPhotourl()).centerCrop().into(holder.imgView);
             Log.d("Firebase-data","user on the way");

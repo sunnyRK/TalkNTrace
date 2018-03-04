@@ -100,6 +100,12 @@ public class enter_pin extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(enter_pin.this,MainActivity.class));
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);

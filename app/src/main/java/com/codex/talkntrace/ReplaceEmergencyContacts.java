@@ -137,6 +137,12 @@ public class ReplaceEmergencyContacts extends AppCompatActivity {
             public void onClick(View view) {
 
                 group_name = groupname.getText().toString().trim();
+
+                if(group_name.equals(""))
+                {
+                    groupname.setError("Please enter group name.");
+                }
+
                 if( (group_name.charAt(0)>=65 && group_name.charAt(0)<=90) || (group_name.charAt(0)>=97 && group_name.charAt(0)<=122))
                 {
                     if(group_name.length()>3){

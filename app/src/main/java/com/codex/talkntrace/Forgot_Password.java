@@ -247,4 +247,10 @@ public class Forgot_Password extends AppCompatActivity {
         super.onStart();
         mauth.addAuthStateListener(mAuthListner);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(Forgot_Password.this,MainActivity.class));
+    }
 }

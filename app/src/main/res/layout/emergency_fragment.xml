@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:gravity="center"
-        android:text="5"
+        android:text="10"
         android:fontFamily="@font/montreal_bold"
         android:textColor="@color/grey_200"
         android:textSize="120sp"

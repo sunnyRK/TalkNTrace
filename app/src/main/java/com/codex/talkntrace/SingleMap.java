@@ -131,7 +131,7 @@ public class SingleMap extends AppCompatActivity implements OnMarkerClickListene
         user_no = al.get(4);
 
         if (googleServicesAvailable()) {
-            setContentView(R.layout.activity_maps);
+            setContentView(R.layout.activity_single_map);
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);

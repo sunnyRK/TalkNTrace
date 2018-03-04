@@ -107,4 +107,10 @@ public class reset_password extends AppCompatActivity {
         super.onStart();
         mauth.addAuthStateListener(mAuthListner);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(reset_password.this,MainActivity.class));
+    }
 }

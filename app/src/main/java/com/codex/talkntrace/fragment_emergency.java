@@ -6,6 +6,8 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +33,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by Rutviz Vyas on 20-03-2017.
@@ -50,10 +57,11 @@ public class fragment_emergency extends Fragment {
     protected FirebaseAuth.AuthStateListener mAuthListener;
     private String useremail;
     private String User_No;
-
+    Handler handler;
     private EditText num1;
     private EditText num2;
     private EditText num3;
+    private TextView timer;
     private EditText message;
     private EditText message2;
     private String number1;
@@ -67,6 +75,7 @@ public class fragment_emergency extends Fragment {
     private Button call;
     int i=1;
     int j=1;
+    public static int f=10,flag_emergency=0;
 
     private String trustLat1;
     private String trustLon1;
@@ -84,14 +93,53 @@ public class fragment_emergency extends Fragment {
         num1 = (EditText)view.findViewById(R.id.num11);
         num2 = (EditText)view.findViewById(R.id.num22);
         num3 = (EditText)view.findViewById(R.id.num33);
+        timer = (TextView)view.findViewById(R.id.timer);
         Emergency_btn1 = (Button) view.findViewById(R.id.SendBtnMsg1);
         Emergency_btn2 = (Button) view.findViewById(R.id.SendBtnMsg2);
+        Button cancel = (Button) view.findViewById(R.id.cancel);
         maps = (Button) view.findViewById(R.id.nearMap);
+        handler = new Handler();
+        Log.d("hello","fragment");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flag_emergency=1;
+                f=10;
+            }
+        });
+        flag_emergency=0;
+        new CountDownTimer(12000, 1000) { //40000 milli seconds is total time, 1000 milli seconds is time interval
+
+            public void onTick(long millisUntilFinished) {
+
+                if(flag_emergency==0)
+                {
+                    timer.setText(f +"");
+                    f--;
+
+                    if(f==0)
+                    {
+                        number1 = num1.getText().toString();
+                        number2 = num2.getText().toString();
+                        number3 = num3.getText().toString();
+                        messages2 = "";
+                        messages2 += username +" needs help Emergency. Location Link:-";
+                        messages2 += " http://maps.google.com/maps/place/"+latitude+","+longitude+"/@"+latitude+","+longitude+",17z ";
+                        sendMessage(messages2,number1,number2,number3);
+                    }
+                }
+
+            }
+            public void onFinish() {
+            }
+        }.start();
 
         call=(Button)view.findViewById(R.id.call);
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag_emergency=1;
+                f=10;
                 number1 = num1.getText().toString();
                 number2 = num2.getText().toString();
                 number3 = num3.getText().toString();
@@ -118,6 +166,8 @@ public class fragment_emergency extends Fragment {
         Emergency_btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag_emergency=1;
+                f=10;
                 number1 = num1.getText().toString();
                 number2 = num2.getText().toString();
                 number3 = num3.getText().toString();
@@ -133,6 +183,8 @@ public class fragment_emergency extends Fragment {
         Emergency_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag_emergency=1;
+                f=10;
                 number1 = num1.getText().toString();
                 number2 = num2.getText().toString();
                 number3 = num3.getText().toString();
@@ -148,6 +200,8 @@ public class fragment_emergency extends Fragment {
         maps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag_emergency=1;
+                f=10;
                 Intent i = new Intent(getActivity(),Placeslocation.class);
                 startActivity(i);
 
@@ -155,6 +209,7 @@ public class fragment_emergency extends Fragment {
         });
         return view;
     }
+
     Float minimization(Float lat,Float lon)
     {
         Float res_lat=Math.abs(Float.parseFloat(latitude) - lat);
@@ -199,9 +254,9 @@ public class fragment_emergency extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("users");
+//        flag_emergency=0;
+//        f=10;
+               mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("users");
         mDatabaseLocationUser = FirebaseDatabase.getInstance().getReference().child("LocationUser");
         mDatabaseTrustedContacts = FirebaseDatabase.getInstance().getReference().child("TrustedContacts");
 
@@ -229,10 +284,7 @@ public class fragment_emergency extends Fragment {
     }
 
     private void sendMessage(String messages, String number1,String number2,String number3) {
-/*
-        Toast.makeText(getContext(),number1 + " " + messages,Toast.LENGTH_SHORT).show();
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(number1, null, messages, null, null);*/
+
         for(int i=1;i<=3;i++)
         {
             if(i==1)
@@ -249,10 +301,11 @@ public class fragment_emergency extends Fragment {
             {
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(number3, null, messages, null, null);
+
+                Snackbar.make(getView(), "Messages Sent To trusted Contacts", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
             }
         }
-        Snackbar.make(getView(), "Messages Sent To trusted Contacts", Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
 
 
     }

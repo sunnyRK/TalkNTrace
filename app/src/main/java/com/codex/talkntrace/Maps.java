@@ -18,12 +18,14 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -114,6 +117,7 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
     android.os.Handler handler;
     private ArrayList<String> al=new ArrayList<>();
     String groupnum;
+    Switch toggle;
 
 
     @Override
@@ -145,6 +149,7 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         ContactName= (TextView)findViewById(R.id.contact_name);
         ContactNo= (TextView)findViewById(R.id.contact_no);
         ContactImg= (ImageView)findViewById(R.id.contact_img);
+        toggle= (Switch)findViewById(R.id.toggleTerror);
         Normal = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.Normal);
         back = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.fab_back);
         Satellite = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.Satellite);
@@ -161,8 +166,22 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                 startActivity(i);
             }
         });
-
-
+        final View parentLayout = findViewById(android.R.id.content);
+        toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(flag==0)
+                {
+                    flag=1;
+                    Snackbar.make(parentLayout, "Long press on the map to add terror spot.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                else
+                {
+                    flag=0;
+                }
+            }
+        });
 
         //user_location = (com.github.clans.fab.FloatingActionButton)findViewById(R.id.fab_full_view);
         //Hybrid = (FloatingActionButton)findViewById(R.id.Hybrid);
@@ -183,17 +202,23 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         Terran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRefTerrorspot.child(groupnum).child("terrorspot").removeValue();
-                mMap.clear();
-                initmap();
-                //mgoogleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                mgoogleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
             }
         });
-        Allmarker.setOnClickListener(new View.OnClickListener() {
+        Allmarker2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds,25,25,5);
                 mgoogleMap.animateCamera(cameraUpdate);
+
+            }
+        });
+        Allmarker3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRefTerrorspot.child(groupnum).child("terrorspot").removeValue();
+                mMap.clear();
+                initmap();
 
             }
         });
@@ -289,7 +314,7 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                if(flag==0)
+                if(flag==1)
                 {
                     DatabaseReference mref2 = mRef.child("GroupChat").child(groupnum).child("terrorspot").push();
                     mref2.child("lat").setValue(latLng.latitude+"");
@@ -387,7 +412,8 @@ public class Maps extends AppCompatActivity implements OnMarkerClickListener, On
                                             Double lat  = Double.parseDouble((String)snapshot.child("lat").getValue());
                                             Double lon  =Double.parseDouble((String) snapshot.child("long").getValue());
                                             LatLng latLng1 = new LatLng(lat,lon);
-                                            M1 = new MarkerOptions().position(latLng1).title("terrorspot");
+                                            BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.image);
+                                            M1 = new MarkerOptions().position(latLng1).title("terrorspot").icon(b);
                                             mMap.addMarker(M1);
                                         }catch (Exception e){}
                                     }
