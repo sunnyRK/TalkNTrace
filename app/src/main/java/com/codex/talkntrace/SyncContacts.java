@@ -413,7 +413,7 @@ public class SyncContacts extends AppCompatActivity {
                 else if(refresh_flag.equals("1"))
                 {
 
-                    Query q = mDatabaseSingleChat.child("7").child("total");
+                    Query q = mDatabaseSingleChat.child(String.valueOf(nums)).child("total");
                     q.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
