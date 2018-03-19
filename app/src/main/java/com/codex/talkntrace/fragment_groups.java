@@ -52,7 +52,7 @@ public class fragment_groups extends Fragment{
     private ArrayList<UsersGroup> userDetail = new ArrayList<>();
     String userEmail,username;
     DatabaseReference mDatabase;
-
+    ArrayList<ArrayList<String>> outer = new ArrayList<ArrayList<String>>();
     private FirebaseAuth mAuth;
     protected FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabaseUsers;
@@ -87,28 +87,19 @@ public class fragment_groups extends Fragment{
                             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                                 user_no = (String) postSnapshot.child("no").getValue();
                                 password = (String) postSnapshot.child("password").getValue();
-                                Log.d("user_no1", user_no + "jhh");
                             }
-                            Log.d("user_no1", user_no);
                             mDatabase = FirebaseDatabase.getInstance().getReference().child("groups");
-                            Log.d("user_no1", user_no);
                             mDatabase.child(user_no).child("users_groups").addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Log.d("user_no1", user_no + "under");
                                     userDetail.clear();
                                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                         UsersGroup user = snapshot.getValue(UsersGroup.class);
                                         userDetail.add(user);
-
                                     }
-
                                     recyclerView.setAdapter(new adapter(recyclerView.getContext(), userDetail, getActivity()));
                                     setUpRecyclerView(recyclerView);
-
-
                                 }
-
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
 

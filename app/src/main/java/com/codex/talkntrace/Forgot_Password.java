@@ -69,7 +69,6 @@ public class Forgot_Password extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 retrieveTrustedContacts();
-              //  function();
             }
         });
 

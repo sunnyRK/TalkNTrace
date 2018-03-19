@@ -78,7 +78,7 @@ public class Google_Login extends AppCompatActivity {
         Gbutton = (SignInButton) findViewById(R.id.SignIn);
         mProgress = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        mAuthListener =  new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null)

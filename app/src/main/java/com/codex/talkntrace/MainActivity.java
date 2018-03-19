@@ -46,7 +46,6 @@ import java.util.List;
 
 import static com.codex.talkntrace.R.id.location;
 
-
 public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
 
     /*Data members Global*/
@@ -79,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         try{
             firebaseDatabase.setPersistenceEnabled(true);
         }catch (Exception e){}
-       /* if(!isMyServiceRunning(FirebaseBackgroundService.class))
+        /*if(!isMyServiceRunning(FirebaseBackgroundService.class))
         {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             startService(new Intent(this,FirebaseBackgroundService.class));
-        }/*/
+        }*/
         if(mAuth == null && savedInstanceState == null && firebasepersistance.checkVar==0)
         {
             firebasepersistance.checkVar=1;

@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,9 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseBackgroundService extends Service {
 
+    Handler handler = new Handler();
 
     @Override
     public void onStart(Intent intent, int startId) {
+        startnotifying();
         super.onStart(intent, startId);
 
     }
@@ -41,13 +45,6 @@ public class FirebaseBackgroundService extends Service {
         return null;
     }
 
-   /*
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-*/
     private void postNotif(String notifString,String sender) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent(this, MainActivity.class);
@@ -67,10 +64,42 @@ public class FirebaseBackgroundService extends Service {
 
         mNotificationManager.notify(0, n);
     }
-/*
     public void startnotifying()
     {
-        final DatabaseReference mFirebase = FirebaseDatabase.getInstance().getReference().child("SingleChat");
+
+/*
+        Log.d("sunny","hii");
+
+
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                                for(int i=0;i<10;i++)
+                                {
+                                    Toast.makeText(getApplication()," sunny " ,Toast.LENGTH_SHORT).show();
+                                }
+
+
+                        }
+                    });
+
+
+
+                }
+            });
+            t.start();
+*/
+
+
+
+
+       /* final DatabaseReference mFirebase = FirebaseDatabase.getInstance().getReference().child("SingleChat");
         Query q = mFirebase.orderByChild("email").equalTo(User_email);
         Log.d("Notificationtnt","singlechat");
         q.addValueEventListener(new ValueEventListener() {
@@ -130,6 +159,6 @@ public class FirebaseBackgroundService extends Service {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
-    }*/
+        });*/
+    }
 }
